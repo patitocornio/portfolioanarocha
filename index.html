@@ -4,9 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ana Rocha — Portfolio</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue&family=Times+New+Roman&family=Playfair+Display&family=Bodoni+Moda&family=Cormorant+Garamond&family=Didot&family=Futura&family=Dancing+Script&family=Orbitron&family=VT323&display=swap');
+  
+  <!-- Faster font loading for GitHub Pages -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&family=Times+New+Roman&family=Playfair+Display&family=Bodoni+Moda&family=Cormorant+Garamond&family=Didot&family=Futura&family=Dancing+Script&family=Orbitron&family=VT323&display=swap" rel="stylesheet">
 
+  <style>
     * {
       margin: 0;
       padding: 0;
@@ -363,12 +367,24 @@
       fontIndex = (fontIndex + 1) % fonts.length;
     }
 
-    // Wait for all web fonts to load before measuring and animating
-    document.fonts.ready.then(function() {
+    function startAnimation() {
       fitTitle();
       applyNextFont();
       setInterval(applyNextFont, 500);
-    });
+    }
+
+    // Wait for fonts, but don't wait longer than 2 seconds
+    let started = false;
+    function safeStart() {
+      if (started) return;
+      started = true;
+      startAnimation();
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(safeStart);
+    }
+    setTimeout(safeStart, 2000);
 
     // Re-fit on resize
     let resizeTimeout;
