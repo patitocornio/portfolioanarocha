@@ -203,13 +203,22 @@
       white-space: nowrap;
     }
 
+    .title-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: clamp(100px, 24vw, 280px);
+      padding: 40px 0;
+    }
+
     .big-title {
-      font-size: clamp(32px, 11vw, 140px);
+      font-size: var(--title-size, clamp(28px, 11vw, 140px));
       font-weight: 400;
-      letter-spacing: -0.04em;
-      line-height: 0.95;
-      transition: font-family 0.3s ease;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
       white-space: nowrap;
+      padding: 0.2em 0;
     }
 
     /* Footer spacer */
@@ -245,8 +254,9 @@
         font-size: 11px;
       }
 
-      .big-title {
-        font-size: clamp(26px, 12vw, 60px);
+      .title-wrapper {
+        min-height: clamp(80px, 22vw, 180px);
+        padding: 30px 0;
       }
     }
   </style>
@@ -282,7 +292,9 @@
 
   <section class="designer-section" id="designer">
     <p class="small-title">ana rocha</p>
-    <h2 class="big-title" id="animated-title">Graphic designer</h2>
+    <div class="title-wrapper">
+      <h2 class="big-title" id="animated-title">Graphic designer</h2>
+    </div>
   </section>
 
   <div class="footer-spacer"></div>
@@ -300,7 +312,7 @@
 
     setInterval(nextSlide, 3500);
 
-    // Typography animation — faster transitions
+    // Typography animation
     const title = document.getElementById('animated-title');
     const fonts = [
       '"Helvetica Neue", Helvetica, Arial, sans-serif',
@@ -317,12 +329,50 @@
 
     let fontIndex = 0;
 
-    function changeFont() {
-      fontIndex = (fontIndex + 1) % fonts.length;
-      title.style.fontFamily = fonts[fontIndex];
+    function getRequiredSizeForFont(fontFamily) {
+      const clone = title.cloneNode(true);
+      clone.style.position = 'absolute';
+      clone.style.visibility = 'hidden';
+      clone.style.fontFamily = fontFamily;
+      clone.style.removeProperty('--title-size');
+      document.body.appendChild(clone);
+
+      const defaultSize = parseFloat(window.getComputedStyle(clone).fontSize);
+      const availableWidth = title.parentElement.clientWidth - 40;
+      const naturalWidth = clone.scrollWidth;
+      const scale = Math.min(1, availableWidth / naturalWidth);
+
+      document.body.removeChild(clone);
+      return defaultSize * scale;
     }
 
-    setInterval(changeFont, 500);
+    function fitTitle() {
+      let minSize = Infinity;
+
+      fonts.forEach(font => {
+        const size = getRequiredSizeForFont(font);
+        if (size < minSize) minSize = size;
+      });
+
+      title.style.setProperty('--title-size', minSize + 'px');
+    }
+
+    function applyNextFont() {
+      title.style.fontFamily = fonts[fontIndex];
+      fontIndex = (fontIndex + 1) % fonts.length;
+    }
+
+    // Measure once, then start cycling at a constant size
+    fitTitle();
+    applyNextFont();
+    setInterval(applyNextFont, 500);
+
+    // Re-fit on resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(fitTitle, 150);
+    });
 
     // Learn more scroll
     document.querySelector('.learn-more').addEventListener('click', function() {
