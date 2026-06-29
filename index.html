@@ -213,6 +213,7 @@
     }
 
     .big-title {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: var(--title-size, clamp(28px, 11vw, 140px));
       font-weight: 400;
       letter-spacing: -0.02em;
@@ -362,10 +363,12 @@
       fontIndex = (fontIndex + 1) % fonts.length;
     }
 
-    // Measure once, then start cycling at a constant size
-    fitTitle();
-    applyNextFont();
-    setInterval(applyNextFont, 500);
+    // Wait for all web fonts to load before measuring and animating
+    document.fonts.ready.then(function() {
+      fitTitle();
+      applyNextFont();
+      setInterval(applyNextFont, 500);
+    });
 
     // Re-fit on resize
     let resizeTimeout;
