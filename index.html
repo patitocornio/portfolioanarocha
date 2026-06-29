@@ -1,1 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ana Rocha — Portfolio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue&family=Times+New+Roman&family=Playfair+Display&family=Bodoni+Moda&family=Cormorant+Garamond&family=Didot&family=Futura&family=Dancing+Script&family=Orbitron&family=VT323&display=swap');
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: #fff;
+      background: #000;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 20px 40px;
+      max-width: 100%;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      opacity: 0.5;
+    }
+
+    /* Hero section with image sequence */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 100px 20px 80px;
+    }
+
+    .slideshow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    /* Placeholder colored screens */
+    .slide:nth-child(1) { background: #2a2a2a; }
+    .slide:nth-child(2) { background: #4a4a4a; }
+    .slide:nth-child(3) { background: #6a6a6a; }
+    .slide:nth-child(4) { background: #3a3a3a; }
+    .slide:nth-child(5) { background: #5a5a5a; }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.1);
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .hero-content h1 {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: clamp(36px, 12vw, 120px);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      text-transform: lowercase;
+      color: #fff;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    .learn-more {
+      padding: 16px 36px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      background: transparent;
+      color: #fff;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      white-space: nowrap;
+    }
+
+    .learn-more:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    /* Scroll arrow */
+    .scroll-arrow {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      color: #fff;
+      font-size: 28px;
+      animation: bounce 2s infinite;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(12px); }
+      60% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* Designer section */
+    .designer-section {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: #000;
+      padding: 80px 20px;
+    }
+
+    .small-title {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      color: #888;
+      white-space: nowrap;
+    }
+
+    .title-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: clamp(100px, 24vw, 280px);
+      padding: 40px 0;
+    }
+
+    .big-title {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: var(--title-size, clamp(28px, 11vw, 140px));
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      white-space: nowrap;
+      padding: 0.2em 0;
+    }
+
+    /* Footer spacer */
+    .footer-spacer {
+      height: 80px;
+      background: #000;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      nav {
+        padding: 18px 16px;
+      }
+
+      nav ul {
+        gap: 14px 24px;
+      }
+
+      nav a {
+        font-size: 11px;
+      }
+
+      .hero {
+        padding: 120px 16px 80px;
+      }
+
+      .hero-content h1 {
+        font-size: clamp(28px, 13vw, 72px);
+      }
+
+      .learn-more {
+        padding: 14px 28px;
+        font-size: 11px;
+      }
+
+      .title-wrapper {
+        min-height: clamp(80px, 22vw, 180px);
+        padding: 30px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#experience">professional experience</a></li>
+      <li><a href="#photography">photography</a></li>
+      <li><a href="#drawings">drawings</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="slideshow">
+      <div class="slide active"></div>
+      <div class="slide"></div>
+      <div class="slide"></div>
+      <div class="slide"></div>
+      <div class="slide"></div>
+    </div>
+    <div class="overlay"></div>
+
+    <div class="hero-content">
+      <h1>ana portfolio</h1>
+      <button class="learn-more">Learn More</button>
+    </div>
+
+    <a href="#designer" class="scroll-arrow">↓</a>
+  </section>
+
+  <section class="designer-section" id="designer">
+    <p class="small-title">ana rocha</p>
+    <div class="title-wrapper">
+      <h2 class="big-title" id="animated-title">Graphic designer</h2>
+    </div>
+  </section>
+
+  <div class="footer-spacer"></div>
+
+  <script>
+    // Slideshow
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+
+    function nextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+
+    setInterval(nextSlide, 3500);
+
+    // Typography animation
+    const title = document.getElementById('animated-title');
+    const fonts = [
+      '"Helvetica Neue", Helvetica, Arial, sans-serif',
+      '"Times New Roman", Times, serif',
+      '"Playfair Display", Georgia, serif',
+      '"Bodoni Moda", "Bodoni MT", serif',
+      '"Cormorant Garamond", Garamond, serif',
+      '"Didot", "Didot LT STD", serif',
+      '"Futura", "Trebuchet MS", sans-serif',
+      '"Dancing Script", cursive',
+      '"Orbitron", sans-serif',
+      '"VT323", monospace'
+    ];
+
+    let fontIndex = 0;
+
+    function getRequiredSizeForFont(fontFamily) {
+      const clone = title.cloneNode(true);
+      clone.style.position = 'absolute';
+      clone.style.visibility = 'hidden';
+      clone.style.fontFamily = fontFamily;
+      clone.style.removeProperty('--title-size');
+      document.body.appendChild(clone);
+
+      const defaultSize = parseFloat(window.getComputedStyle(clone).fontSize);
+      const availableWidth = title.parentElement.clientWidth - 40;
+      const naturalWidth = clone.scrollWidth;
+      const scale = Math.min(1, availableWidth / naturalWidth);
+
+      document.body.removeChild(clone);
+      return defaultSize * scale;
+    }
+
+    function fitTitle() {
+      let minSize = Infinity;
+
+      fonts.forEach(font => {
+        const size = getRequiredSizeForFont(font);
+        if (size < minSize) minSize = size;
+      });
+
+      title.style.setProperty('--title-size', minSize + 'px');
+    }
+
+    function applyNextFont() {
+      title.style.fontFamily = fonts[fontIndex];
+      fontIndex = (fontIndex + 1) % fonts.length;
+    }
+
+    // Wait for all web fonts to load before measuring and animating
+    document.fonts.ready.then(function() {
+      fitTitle();
+      applyNextFont();
+      setInterval(applyNextFont, 500);
+    });
+
+    // Re-fit on resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(fitTitle, 150);
+    });
+
+    // Learn more scroll
+    document.querySelector('.learn-more').addEventListener('click', function() {
+      document.getElementById('designer').scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
