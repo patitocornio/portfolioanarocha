@@ -4,11 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ana Rocha — Portfolio</title>
-  
-  <!-- Faster font loading for GitHub Pages -->
+
+  <!-- Preconnect for faster font loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&family=Times+New+Roman&family=Playfair+Display&family=Bodoni+Moda&family=Cormorant+Garamond&family=Didot&family=Futura&family=Dancing+Script&family=Orbitron&family=VT323&display=swap" rel="stylesheet">
+
+  <!-- All fonts are real Google Fonts, so they work everywhere -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter&family=Libre+Baskerville&family=Playfair+Display&family=Bodoni+Moda&family=Cormorant+Garamond&family=Antic+Didone&family=Jost&family=Dancing+Script&family=Orbitron&family=VT323&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -22,7 +24,7 @@
     }
 
     body {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
       color: #fff;
       background: #000;
       overflow-x: hidden;
@@ -54,7 +56,7 @@
     nav a {
       text-decoration: none;
       color: #fff;
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: 12px;
       letter-spacing: 0.08em;
       text-transform: lowercase;
@@ -135,7 +137,7 @@
     }
 
     .hero-content h1 {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: clamp(36px, 12vw, 120px);
       font-weight: 400;
       letter-spacing: -0.03em;
@@ -150,7 +152,7 @@
       border: 1px solid rgba(255, 255, 255, 0.6);
       background: transparent;
       color: #fff;
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: 12px;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -198,7 +200,7 @@
     }
 
     .small-title {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: 14px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -217,13 +219,19 @@
     }
 
     .big-title {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: var(--title-size, clamp(28px, 11vw, 140px));
       font-weight: 400;
       letter-spacing: -0.02em;
       line-height: 1.2;
       white-space: nowrap;
       padding: 0.2em 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .big-title.ready {
+      opacity: 1;
     }
 
     /* Footer spacer */
@@ -320,19 +328,20 @@
     // Typography animation
     const title = document.getElementById('animated-title');
     const fonts = [
-      '"Helvetica Neue", Helvetica, Arial, sans-serif',
-      '"Times New Roman", Times, serif',
+      'Inter, "Helvetica Neue", Helvetica, Arial, sans-serif',
+      '"Libre Baskerville", "Times New Roman", Times, serif',
       '"Playfair Display", Georgia, serif',
       '"Bodoni Moda", "Bodoni MT", serif',
       '"Cormorant Garamond", Garamond, serif',
-      '"Didot", "Didot LT STD", serif',
-      '"Futura", "Trebuchet MS", sans-serif',
+      '"Antic Didone", "Didot", "Didot LT STD", serif',
+      'Jost, Futura, "Trebuchet MS", sans-serif',
       '"Dancing Script", cursive',
-      '"Orbitron", sans-serif',
-      '"VT323", monospace'
+      'Orbitron, sans-serif',
+      'VT323, monospace'
     ];
 
     let fontIndex = 0;
+    let animationInterval;
 
     function getRequiredSizeForFont(fontFamily) {
       const clone = title.cloneNode(true);
@@ -359,6 +368,8 @@
         if (size < minSize) minSize = size;
       });
 
+      // Keep a readable minimum size
+      minSize = Math.max(minSize, 24);
       title.style.setProperty('--title-size', minSize + 'px');
     }
 
@@ -370,21 +381,20 @@
     function startAnimation() {
       fitTitle();
       applyNextFont();
-      setInterval(applyNextFont, 500);
+      title.classList.add('ready');
+
+      if (!animationInterval) {
+        animationInterval = setInterval(applyNextFont, 500);
+      }
     }
 
-    // Wait for fonts, but don't wait longer than 2 seconds
-    let started = false;
-    function safeStart() {
-      if (started) return;
-      started = true;
-      startAnimation();
-    }
-
+    // Wait for all web fonts to load before starting
     if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(safeStart);
+      document.fonts.ready.then(startAnimation);
     }
-    setTimeout(safeStart, 2000);
+
+    // Fallback in case font loading is slow
+    setTimeout(startAnimation, 2000);
 
     // Re-fit on resize
     let resizeTimeout;
