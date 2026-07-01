@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Ana Rocha — Portfolio</title>
 
   <!-- Preconnect for faster font loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- All fonts are real Google Fonts, so they work everywhere -->
+  <!-- All fonts are real Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter&family=Libre+Baskerville&family=Playfair+Display&family=Bodoni+Moda&family=Cormorant+Garamond&family=Antic+Didone&family=Jost&family=Dancing+Script&family=Orbitron&family=VT323&display=swap" rel="stylesheet">
 
   <style>
@@ -26,7 +26,7 @@
     body {
       font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
       color: #fff;
-      background: #000;
+      background: #0a0a0a;
       overflow-x: hidden;
     }
 
@@ -40,25 +40,34 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 24px 20px;
+      padding: 24px 16px;
+      pointer-events: none;
     }
 
     nav ul {
       list-style: none;
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: center;
       align-items: center;
-      gap: 20px 40px;
+      gap: clamp(8px, 2.5vw, 40px);
       max-width: 100%;
+      overflow: hidden;
+      pointer-events: auto;
+    }
+
+    nav li {
+      flex-shrink: 1;
+      min-width: 0;
     }
 
     nav a {
+      display: block;
       text-decoration: none;
       color: #fff;
       font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.08em;
+      font-size: clamp(8px, 2.2vw, 12px);
+      letter-spacing: 0.04em;
       text-transform: lowercase;
       transition: opacity 0.3s ease;
       white-space: nowrap;
@@ -73,6 +82,7 @@
       position: relative;
       width: 100%;
       min-height: 100vh;
+      min-height: 100svh;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -80,6 +90,7 @@
       align-items: center;
       text-align: center;
       padding: 100px 20px 80px;
+      background: #000;
     }
 
     .slideshow {
@@ -188,7 +199,9 @@
 
     /* Designer section */
     .designer-section {
+      position: relative;
       min-height: 100vh;
+      min-height: 100svh;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -196,7 +209,9 @@
       align-items: center;
       text-align: center;
       background: #000;
-      padding: 80px 20px;
+      padding: 120px 20px;
+      gap: 0;
+      overflow: hidden;
     }
 
     .small-title {
@@ -204,54 +219,128 @@
       font-size: 14px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      margin-bottom: 24px;
       color: #888;
       white-space: nowrap;
+      margin-bottom: 24px;
     }
 
     .title-wrapper {
+      position: relative;
       width: 100%;
+      max-width: 1000px;
+      height: clamp(120px, 22vw, 240px);
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: clamp(100px, 24vw, 280px);
-      padding: 40px 0;
+      margin-bottom: 36px;
+      overflow: hidden;
+      contain: layout style paint;
     }
 
     .big-title {
-      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-size: var(--title-size, clamp(28px, 11vw, 140px));
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: 140px;
       font-weight: 400;
       letter-spacing: -0.02em;
-      line-height: 1.2;
+      line-height: 1.1;
       white-space: nowrap;
-      padding: 0.2em 0;
       opacity: 0;
       transition: opacity 0.3s ease;
+      transform-origin: center center;
+      will-change: transform, font-family;
     }
 
     .big-title.ready {
       opacity: 1;
     }
 
-    /* Footer spacer */
-    .footer-spacer {
-      height: 80px;
-      background: #000;
+    .description {
+      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: clamp(14px, 2vw, 18px);
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+      color: #aaa;
+      max-width: 900px;
+      padding: 0 20px;
+      text-align: justify;
+      text-align-last: center;
+    }
+
+    .description .highlight {
+      color: #fff;
+    }
+
+    /* Footer */
+    footer {
+      width: 100%;
+      background: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 60px 20px 30px;
+      gap: 30px;
+    }
+
+    .footer-title {
+      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: clamp(24px, 5vw, 40px);
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+
+    .contact-line {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: clamp(13px, 2vw, 16px);
+      letter-spacing: 0.04em;
+    }
+
+    .contact-line a,
+    .contact-line span {
+      color: #fff;
+      text-decoration: none;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .contact-line a:hover {
+      opacity: 0.6;
+    }
+
+    .copyright {
+      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: #666;
+    }
+
+    /* Hidden font preloader and measure area */
+    .hidden-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+      pointer-events: none;
+      opacity: 0;
+      z-index: -1;
     }
 
     /* Responsive tweaks */
     @media (max-width: 768px) {
       nav {
-        padding: 18px 16px;
-      }
-
-      nav ul {
-        gap: 14px 24px;
-      }
-
-      nav a {
-        font-size: 11px;
+        padding: 18px 12px;
       }
 
       .hero {
@@ -267,9 +356,27 @@
         font-size: 11px;
       }
 
+      .designer-section {
+        padding: 100px 20px;
+      }
+
       .title-wrapper {
-        min-height: clamp(80px, 22vw, 180px);
-        padding: 30px 0;
+        height: clamp(110px, 26vw, 160px);
+        margin-bottom: 28px;
+      }
+
+      .description {
+        padding: 0 10px;
+      }
+
+      footer {
+        padding: 50px 20px 24px;
+        gap: 24px;
+      }
+
+      .contact-line {
+        flex-direction: column;
+        gap: 14px;
       }
     }
   </style>
@@ -278,12 +385,18 @@
 
   <nav>
     <ul>
-      <li><a href="#projects">projects</a></li>
-      <li><a href="#experience">professional experience</a></li>
-      <li><a href="#photography">photography</a></li>
-      <li><a href="#drawings">drawings</a></li>
+      <li><a href="#projects">experience professionelle</a></li>
+      <li><a href="#experience">photographie</a></li>
+      <li><a href="#photography">video</a></li>
+      <li><a href="#drawings">illustration</a></li>
+      <li><a href="#drawings">cv</a></li>
     </ul>
   </nav>
+
+  <div class="hidden-layer" aria-hidden="true">
+    <span id="preload-text">Graphic designer</span>
+    <div id="measure-box"></div>
+  </div>
 
   <section class="hero">
     <div class="slideshow">
@@ -308,9 +421,24 @@
     <div class="title-wrapper">
       <h2 class="big-title" id="animated-title">Graphic designer</h2>
     </div>
+    <p class="description">
+      Diplômée de Licence en Design Graphique de 
+      <span class="highlight">l'École nationale supérieure des arts décoratifs (ENSAD)</span> 
+      en juin 2027, je recherche une alternance en 
+      <span class="highlight">Master Graphisme polyvalent</span> 
+      à Paris (mobilité nationale possible) pour commencer en septembre 2027.<br>Rythme : 3 semaines en entreprise, 1 en formation.
+    </p>
   </section>
 
-  <div class="footer-spacer"></div>
+  <footer>
+    <h3 class="footer-title">Contact</h3>
+    <div class="contact-line">
+      <a href="https://www.linkedin.com/in/ana-sofia-medina-rocha-789074311" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="mailto:rocha.ana3442@gmail.com">rocha.ana3442@gmail.com</a>
+      <span>07 66 37 31 88</span>
+    </div>
+    <p class="copyright">&copy; coded on github</p>
+  </footer>
 
   <script>
     // Slideshow
@@ -327,6 +455,8 @@
 
     // Typography animation
     const title = document.getElementById('animated-title');
+    const preloader = document.getElementById('preload-text');
+    const measureBox = document.getElementById('measure-box');
     const fonts = [
       'Inter, "Helvetica Neue", Helvetica, Arial, sans-serif',
       '"Libre Baskerville", "Times New Roman", Times, serif',
@@ -340,46 +470,61 @@
       'VT323, monospace'
     ];
 
+    const referenceSize = 140;
+    const targetWidth = 1000;
+    const fontMeasurements = {};
     let fontIndex = 0;
     let animationInterval;
+    let started = false;
+    let lastWindowWidth = window.innerWidth;
 
-    function getRequiredSizeForFont(fontFamily) {
-      const clone = title.cloneNode(true);
-      clone.style.position = 'absolute';
-      clone.style.visibility = 'hidden';
-      clone.style.fontFamily = fontFamily;
-      clone.style.removeProperty('--title-size');
-      document.body.appendChild(clone);
+    measureBox.style.cssText = 'position:absolute;top:0;left:0;visibility:hidden;white-space:nowrap;line-height:1.1;font-size:' + referenceSize + 'px;';
+    measureBox.textContent = title.textContent;
 
-      const defaultSize = parseFloat(window.getComputedStyle(clone).fontSize);
-      const availableWidth = title.parentElement.clientWidth - 40;
-      const naturalWidth = clone.scrollWidth;
-      const scale = Math.min(1, availableWidth / naturalWidth);
+    function measureFont(fontFamily) {
+      measureBox.style.fontFamily = fontFamily;
+      return {
+        width: measureBox.scrollWidth,
+        height: measureBox.scrollHeight
+      };
+    }
 
-      document.body.removeChild(clone);
-      return defaultSize * scale;
+    function measureAllFonts() {
+      fonts.forEach(font => {
+        fontMeasurements[font] = measureFont(font);
+      });
     }
 
     function fitTitle() {
-      let minSize = Infinity;
+      const wrapper = title.parentElement;
+      const wrapperWidth = wrapper.clientWidth - 40;
+      const wrapperHeight = wrapper.clientHeight;
+      const currentTargetWidth = Math.min(wrapperWidth, targetWidth);
 
       fonts.forEach(font => {
-        const size = getRequiredSizeForFont(font);
-        if (size < minSize) minSize = size;
+        const metrics = fontMeasurements[font];
+        const widthScale = currentTargetWidth / metrics.width;
+        const heightScale = wrapperHeight / metrics.height;
+        fontMeasurements[font + '_scale'] = Math.min(widthScale, heightScale);
       });
-
-      // Keep a readable minimum size
-      minSize = Math.max(minSize, 24);
-      title.style.setProperty('--title-size', minSize + 'px');
     }
 
     function applyNextFont() {
-      title.style.fontFamily = fonts[fontIndex];
+      const font = fonts[fontIndex];
+      const scale = fontMeasurements[font + '_scale'] || 1;
+      title.style.fontFamily = font;
+      title.style.fontSize = referenceSize + 'px';
+      title.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
       fontIndex = (fontIndex + 1) % fonts.length;
     }
 
     function startAnimation() {
+      if (started) return;
+      started = true;
+
+      measureAllFonts();
       fitTitle();
+
       applyNextFont();
       title.classList.add('ready');
 
@@ -388,19 +533,43 @@
       }
     }
 
-    // Wait for all web fonts to load before starting
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(startAnimation);
+    // Force every font to load before animating
+    async function preloadFonts() {
+      const loaders = fonts.map(font => {
+        const family = font.split(',')[0].replace(/["']/g, '');
+        return document.fonts.load('1em ' + family).catch(() => null);
+      });
+
+      await Promise.all(loaders);
+
+      // Warm glyph cache by rendering each font in hidden preloader
+      fonts.forEach(font => {
+        preloader.style.fontFamily = font;
+        preloader.offsetHeight;
+      });
+
+      startAnimation();
     }
 
-    // Fallback in case font loading is slow
-    setTimeout(startAnimation, 2000);
+    preloadFonts();
 
-    // Re-fit on resize
+    // Fallback if font loading hangs
+    setTimeout(startAnimation, 3000);
+
+    // Re-fit on resize, but ignore height-only changes (mobile URL bar)
     let resizeTimeout;
     window.addEventListener('resize', () => {
+      if (!started) return;
+
+      const currentWidth = window.innerWidth;
+      if (currentWidth === lastWindowWidth) return;
+      lastWindowWidth = currentWidth;
+
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(fitTitle, 150);
+      resizeTimeout = setTimeout(() => {
+        measureAllFonts();
+        fitTitle();
+      }, 150);
     });
 
     // Learn more scroll
